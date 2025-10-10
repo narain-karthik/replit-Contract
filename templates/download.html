@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Contract Document Management System</h1>
+        <div class="user-info">
+            <span>Welcome, {{ session.user }}</span>
+            <a href="{{ url_for('menu') }}" class="btn-back">Back to Menu</a>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Download Document</h2>
+        
+        <form method="POST" class="download-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="document_number">Document Number</label>
+                    <input type="text" id="document_number" name="document_number" class="autocomplete">
+                    <div id="doc_suggestions" class="suggestions"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="revision_number">Revision Number</label>
+                    <input type="text" id="revision_number" name="revision_number" class="autocomplete">
+                    <div id="rev_suggestions" class="suggestions"></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="text" id="date" name="date" readonly>
+            </div>
+            
+            <button type="submit" class="btn-primary">Search Documents</button>
+        </form>
+        
+        {% if results %}
+        <h3>Search Results</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document Number</th>
+                        <th>Revision Number</th>
+                        <th>Date</th>
+                        <th>Filename</th>
+                        <th>Uploaded By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{ result.document_number }}</td>
+                        <td>{{ result.revision_number }}</td>
+                        <td>{{ result.date }}</td>
+                        <td>{{ result.filename }}</td>
+                        <td>{{ result.uploaded_by }}</td>
+                        <td>
+                            <a href="{{ url_for('download_file', upload_id=result.id) }}" class="btn-download">Download</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateField = document.getElementById('date');
+            const today = new Date();
+            dateField.value = today.toISOString().split('T')[0];
+            
+            const docInput = document.getElementById('document_number');
+            const revInput = document.getElementById('revision_number');
+            
+            function setupAutocomplete(input, suggestionDiv) {
+                input.addEventListener('input', function() {
+                    const term = this.value;
+                    
+                    if (term.length < 1) {
+                        suggestionDiv.innerHTML = '';
+                        return;
+                    }
+                    
+                    fetch(`/api/search_documents?term=${encodeURIComponent(term)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            suggestionDiv.innerHTML = '';
+                            
+                            if (data.length > 0) {
+                                data.forEach(item => {
+                                    const div = document.createElement('div');
+                                    div.className = 'suggestion-item';
+                                    
+                                    if (input.id === 'document_number') {
+                                        div.textContent = item.document_number;
+                                        div.onclick = function() {
+                                            docInput.value = item.document_number;
+                                            revInput.value = item.revision_number;
+                                            suggestionDiv.innerHTML = '';
+                                        };
+                                    } else if (input.id === 'revision_number') {
+                                        div.textContent = item.revision_number;
+                                        div.onclick = function() {
+                                            revInput.value = item.revision_number;
+                                            suggestionDiv.innerHTML = '';
+                                        };
+                                    }
+                                    
+                                    suggestionDiv.appendChild(div);
+                                });
+                            }
+                        });
+                });
+            }
+            
+            setupAutocomplete(docInput, document.getElementById('doc_suggestions'));
+            setupAutocomplete(revInput, document.getElementById('rev_suggestions'));
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('autocomplete')) {
+                    document.querySelectorAll('.suggestions').forEach(div => {
+                        div.innerHTML = '';
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

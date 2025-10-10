@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Contract Document Management System</h1>
+        <div class="user-info">
+            <span>Welcome, {{ session.user }}</span>
+            <a href="{{ url_for('master_documents') }}" class="btn-back">Back to Documents</a>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Edit Document</h2>
+        
+        <form method="POST" class="master-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="text" id="quantity" name="quantity" value="{{ document.quantity }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="material_number">Material Number</label>
+                    <input type="text" id="material_number" name="material_number" value="{{ document.material_number }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="material_name">Material Name</label>
+                    <input type="text" id="material_name" name="material_name" value="{{ document.material_name }}">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="vendor">Vendor</label>
+                    <input type="text" id="vendor" name="vendor" value="{{ document.vendor }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="document_number">Document Number</label>
+                    <input type="text" id="document_number" name="document_number" value="{{ document.document_number }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="revision_number">Revision Number</label>
+                    <input type="text" id="revision_number" name="revision_number" value="{{ document.revision_number }}">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="text" id="price" name="price" value="{{ document.price }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="ACTIVE" {% if document.status == 'ACTIVE' %}selected{% endif %}>ACTIVE</option>
+                        <option value="INACTIVE" {% if document.status == 'INACTIVE' %}selected{% endif %}>INACTIVE</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-primary">Update Document</button>
+            <a href="{{ url_for('master_documents') }}" class="btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Contract Document Management System</h1>
+        <div class="user-info">
+            <span>Welcome, {{ session.user }}</span>
+            <a href="{{ url_for('menu') }}" class="btn-back">Back to Menu</a>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>View Report</h2>
+        
+        <form method="GET" class="filter-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="document_number">Document Number</label>
+                    <input type="text" id="document_number" name="document_number" value="{{ request.args.get('document_number', '') }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="revision_number">Revision Number</label>
+                    <input type="text" id="revision_number" name="revision_number" value="{{ request.args.get('revision_number', '') }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="text" id="date" name="date" value="{{ request.args.get('date', '') }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="material_name">Material Name</label>
+                    <input type="text" id="material_name" name="material_name" value="{{ request.args.get('material_name', '') }}">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-primary">Apply Filters</button>
+            <a href="{{ url_for('view_report') }}" class="btn-secondary">Clear Filters</a>
+        </form>
+        
+        <h3>Document Details</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Quantity</th>
+                        <th>Material Number</th>
+                        <th>Material Name</th>
+                        <th>Vendor</th>
+                        <th>Document Number</th>
+                        <th>Revision Number</th>
+                        <th>Price</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in documents %}
+                    <tr>
+                        <td>{{ doc.quantity }}</td>
+                        <td>{{ doc.material_number }}</td>
+                        <td>{{ doc.material_name }}</td>
+                        <td>{{ doc.vendor }}</td>
+                        <td>{{ doc.document_number }}</td>
+                        <td>{{ doc.revision_number }}</td>
+                        <td>{{ doc.price }}</td>
+                        <td>{{ doc.date }}</td>
+                        <td>{{ doc.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <h3>Upload Items</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document Number</th>
+                        <th>Revision Number</th>
+                        <th>Filename</th>
+                        <th>Uploaded By</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for upload in uploads %}
+                    <tr>
+                        <td>{{ upload.document_number }}</td>
+                        <td>{{ upload.revision_number }}</td>
+                        <td>{{ upload.filename }}</td>
+                        <td>{{ upload.uploaded_by }}</td>
+                        <td>{{ upload.date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <h3>Download Items (User Download History)</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document Number</th>
+                        <th>Filename</th>
+                        <th>Downloaded By</th>
+                        <th>Download Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for download in downloads %}
+                    <tr>
+                        <td>{{ download.document_number }}</td>
+                        <td>{{ download.filename }}</td>
+                        <td>{{ download.downloaded_by }}</td>
+                        <td>{{ download.download_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
