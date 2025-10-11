@@ -4,8 +4,8 @@
 A comprehensive Contract Document Management System built with Flask, HTML, CSS, JavaScript, and SQLite database. The system provides secure document upload, download, management, and tracking capabilities with user authentication and detailed reporting.
 
 ## Project Status
-**Current State**: Fully functional Document Management System with all core features implemented and updated
-**Last Updated**: October 9, 2025
+**Current State**: Fully functional Document Management System with all core features implemented and configured for Replit environment
+**Last Updated**: October 11, 2025
 
 ## Features
 
@@ -155,12 +155,12 @@ Centralized navigation hub with access to:
 
 ## Running the Application
 
-The Flask server runs on port 5000:
+The Flask server runs on port 5000 and is configured to run automatically in Replit:
 ```bash
 python app.py
 ```
 
-Access the application at: `http://0.0.0.0:5000`
+The application is accessible through the Replit webview preview.
 
 ## Default Credentials
 - Username: `admin`
@@ -192,6 +192,14 @@ Access the application at: `http://0.0.0.0:5000`
 None specified yet
 
 ## Recent Changes
+- October 11, 2025: Replit environment setup
+  - Configured project to run in Replit environment
+  - Installed Python dependencies (Flask 3.1.2, Flask-Session 0.8.0, Werkzeug 3.1.3)
+  - Updated Flask app to run on port 5000
+  - Created uploads directory for file storage
+  - Configured workflow for automatic Flask app execution
+  - Updated .gitignore to properly exclude Python virtual environment
+
 - October 9, 2025: Initial implementation completed
   - Created Flask application with SQLite database
   - Implemented all 6 main features (Login, Menu, Master Data, Upload, Download, View Report)
