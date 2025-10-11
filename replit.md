@@ -192,12 +192,25 @@ The application is accessible through the Replit webview preview.
 None specified yet
 
 ## Recent Changes
+- October 11, 2025: UI/UX Redesign with GTN Engineering Branding
+  - Implemented light sky blue color scheme (#87CEEB, #00BFFF, #E0F6FF) across all pages
+  - Added GTN Engineering India Ltd logo to all pages
+  - Updated branding to "GTN ENGINEERING INDIA LTD" - "CONTRACT DOCUMENT MANAGEMENT SYSTEM"
+  - Redesigned login page with centered logo and company branding
+  - Created branded header component with logo for all internal pages
+  - Enhanced all templates with modern, professional design
+  - Updated buttons, tables, and forms with new color scheme
+  - Added emoji icons to menu cards for better visual appeal
+  - Improved spacing, typography, and responsive design
+  - Enhanced user experience with gradient backgrounds and shadows
+
 - October 11, 2025: Replit environment setup
   - Configured project to run in Replit environment
-  - Installed Python dependencies (Flask 3.1.2, Flask-Session 0.8.0, Werkzeug 3.1.3)
+  - Installed Python dependencies (Flask 3.1.2, Flask-Session 0.8.0, Werkzeug 3.1.3, Gunicorn 23.0.0)
   - Updated Flask app to run on port 5000
   - Created uploads directory for file storage
   - Configured workflow for automatic Flask app execution
+  - Configured deployment with Gunicorn for production
   - Updated .gitignore to properly exclude Python virtual environment
 
 - October 9, 2025: Initial implementation completed
