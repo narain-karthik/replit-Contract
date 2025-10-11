@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script defer src="{{ url_for('static', filename='app.js') }}"></script>
 </head>
 <body>
     <div class="header">
@@ -15,98 +16,35 @@
             <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
         </div>
     </div>
-    
+
     <div class="container">
         <h2>Upload Document</h2>
-        
-        <form method="POST" enctype="multipart/form-data" class="upload-form">
-            <div class="form-group">
-                <label for="document_number">Document Number</label>
-                <input type="text" id="document_number" name="document_number" class="autocomplete" required>
-                <div id="doc_suggestions" class="suggestions"></div>
+
+        <form method="POST" enctype="multipart/form-data" class="upload-form" autocomplete="off">
+            <div class="form-row">
+                <div class="form-group autocomplete-wrap">
+                    <label for="document_number">Document Number</label>
+                    <input type="text" id="document_number" name="document_number" class="autocomplete" required placeholder="e.g., DOC-1001">
+                    <div id="doc_suggestions" class="suggestions"></div>
+                </div>
+                <div class="form-group autocomplete-wrap">
+                    <label for="revision_number">Revision Number</label>
+                    <input type="text" id="revision_number" name="revision_number" class="autocomplete" required placeholder="e.g., R1">
+                    <div id="rev_suggestions" class="suggestions"></div>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="text" id="date" name="date" readonly>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="revision_number">Revision Number</label>
-                <input type="text" id="revision_number" name="revision_number" class="autocomplete" required>
-                <div id="rev_suggestions" class="suggestions"></div>
-            </div>
-            
-            <div class="form-group">
-                <label for="date">Date</label>
-                <input type="text" id="date" name="date" readonly>
-            </div>
-            
+
             <div class="form-group">
                 <label for="file">Upload File</label>
                 <input type="file" id="file" name="file" required>
             </div>
-            
+
             <button type="submit" class="btn-primary">Upload Document</button>
         </form>
     </div>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dateField = document.getElementById('date');
-            const today = new Date();
-            dateField.value = today.toISOString().split('T')[0];
-            
-            const docInput = document.getElementById('document_number');
-            const revInput = document.getElementById('revision_number');
-            
-            function setupAutocomplete(input, suggestionDiv) {
-                input.addEventListener('input', function() {
-                    const term = this.value;
-                    
-                    if (term.length < 1) {
-                        suggestionDiv.innerHTML = '';
-                        return;
-                    }
-                    
-                    fetch(`/api/search_documents?term=${encodeURIComponent(term)}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            suggestionDiv.innerHTML = '';
-                            
-                            if (data.length > 0) {
-                                data.forEach(item => {
-                                    const div = document.createElement('div');
-                                    div.className = 'suggestion-item';
-                                    
-                                    if (input.id === 'document_number') {
-                                        div.textContent = item.document_number;
-                                        div.onclick = function() {
-                                            docInput.value = item.document_number;
-                                            revInput.value = item.revision_number;
-                                            suggestionDiv.innerHTML = '';
-                                        };
-                                    } else if (input.id === 'revision_number') {
-                                        div.textContent = item.revision_number;
-                                        div.onclick = function() {
-                                            revInput.value = item.revision_number;
-                                            suggestionDiv.innerHTML = '';
-                                        };
-                                    }
-                                    
-                                    suggestionDiv.appendChild(div);
-                                });
-                            }
-                        });
-                });
-            }
-            
-            setupAutocomplete(docInput, document.getElementById('doc_suggestions'));
-            setupAutocomplete(revInput, document.getElementById('rev_suggestions'));
-            
-            document.addEventListener('click', function(e) {
-                if (!e.target.classList.contains('autocomplete')) {
-                    document.querySelectorAll('.suggestions').forEach(div => {
-                        div.innerHTML = '';
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>

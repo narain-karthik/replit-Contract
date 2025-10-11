@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Report</title>
+    <title>Reports - Contract DMS</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -15,38 +15,34 @@
             <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
         </div>
     </div>
-    
+
     <div class="container">
-        <h2>View Report</h2>
-        
+        <h2>Reports</h2>
+
         <form method="GET" class="filter-form">
             <div class="form-row">
                 <div class="form-group">
                     <label for="document_number">Document Number</label>
-                    <input type="text" id="document_number" name="document_number" value="{{ request.args.get('document_number', '') }}">
+                    <input type="text" id="document_number" name="document_number" value="{{ request.args.get('document_number','') }}">
                 </div>
-                
                 <div class="form-group">
                     <label for="revision_number">Revision Number</label>
-                    <input type="text" id="revision_number" name="revision_number" value="{{ request.args.get('revision_number', '') }}">
+                    <input type="text" id="revision_number" name="revision_number" value="{{ request.args.get('revision_number','') }}">
                 </div>
-                
                 <div class="form-group">
-                    <label for="date">Date</label>
-                    <input type="text" id="date" name="date" value="{{ request.args.get('date', '') }}">
+                    <label for="date">Date (YYYY-MM-DD)</label>
+                    <input type="text" id="date" name="date" value="{{ request.args.get('date','') }}">
                 </div>
-                
                 <div class="form-group">
                     <label for="material_name">Material Name</label>
-                    <input type="text" id="material_name" name="material_name" value="{{ request.args.get('material_name', '') }}">
+                    <input type="text" id="material_name" name="material_name" value="{{ request.args.get('material_name','') }}">
                 </div>
             </div>
-            
             <button type="submit" class="btn-primary">Apply Filters</button>
-            <a href="{{ url_for('view_report') }}" class="btn-secondary">Clear Filters</a>
+            <a href="{{ url_for('view_report') }}" class="btn-outline">Clear</a>
         </form>
-        
-        <h3>Document Details</h3>
+
+        <h3>Documents</h3>
         <div class="table-container">
             <table>
                 <thead>
@@ -56,75 +52,87 @@
                         <th>Material Name</th>
                         <th>Vendor</th>
                         <th>Document Number</th>
-                        <th>Revision Number</th>
+                        <th>Revision</th>
                         <th>Price</th>
                         <th>Date</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for doc in documents %}
+                    {% for d in documents %}
                     <tr>
-                        <td>{{ doc.quantity }}</td>
-                        <td>{{ doc.material_number }}</td>
-                        <td>{{ doc.material_name }}</td>
-                        <td>{{ doc.vendor }}</td>
-                        <td>{{ doc.document_number }}</td>
-                        <td>{{ doc.revision_number }}</td>
-                        <td>{{ doc.price }}</td>
-                        <td>{{ doc.date }}</td>
-                        <td>{{ doc.status }}</td>
+                        <td>{{ d.quantity }}</td>
+                        <td>{{ d.material_number }}</td>
+                        <td>{{ d.material_name }}</td>
+                        <td>{{ d.vendor }}</td>
+                        <td>{{ d.document_number }}</td>
+                        <td>{{ d.revision_number }}</td>
+                        <td>{{ d.price }}</td>
+                        <td>{{ d.date }}</td>
+                        <td>{{ d.status }}</td>
                     </tr>
+                    {% else %}
+                    <tr><td colspan="9" style="text-align:center; color:#666;">No documents</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        
-        <h3>Upload Items</h3>
+
+        <h3>Uploads</h3>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Document Number</th>
-                        <th>Revision Number</th>
+                        <th>Revision</th>
+                        <th>Date</th>
                         <th>Filename</th>
                         <th>Uploaded By</th>
-                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for upload in uploads %}
+                    {% for u in uploads %}
                     <tr>
-                        <td>{{ upload.document_number }}</td>
-                        <td>{{ upload.revision_number }}</td>
-                        <td>{{ upload.filename }}</td>
-                        <td>{{ upload.uploaded_by }}</td>
-                        <td>{{ upload.date }}</td>
+                        <td>{{ u.id }}</td>
+                        <td>{{ u.document_number }}</td>
+                        <td>{{ u.revision_number }}</td>
+                        <td>{{ u.date }}</td>
+                        <td>{{ u.filename }}</td>
+                        <td>{{ u.uploaded_by }}</td>
                     </tr>
+                    {% else %}
+                    <tr><td colspan="6" style="text-align:center; color:#666;">No uploads</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        
-        <h3>Download Items (User Download History)</h3>
+
+        <h3>Downloads</h3>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
+                        <th>ID</th>
+                        <th>Upload ID</th>
                         <th>Document Number</th>
-                        <th>Filename</th>
                         <th>Downloaded By</th>
                         <th>Download Date</th>
+                        <th>Filename</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for download in downloads %}
+                    {% for r in downloads %}
                     <tr>
-                        <td>{{ download.document_number }}</td>
-                        <td>{{ download.filename }}</td>
-                        <td>{{ download.downloaded_by }}</td>
-                        <td>{{ download.download_date }}</td>
+                        <td>{{ r.id }}</td>
+                        <td>{{ r.upload_id }}</td>
+                        <td>{{ r.document_number }}</td>
+                        <td>{{ r.downloaded_by }}</td>
+                        <td>{{ r.download_date }}</td>
+                        <td>{{ r.filename }}</td>
                     </tr>
+                    {% else %}
+                    <tr><td colspan="6" style="text-align:center; color:#666;">No downloads</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
