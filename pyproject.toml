@@ -6,5 +6,6 @@ requires-python = ">=3.11"
 dependencies = [
     "flask>=3.1.2",
     "flask-session>=0.8.0",
+    "gunicorn>=23.0.0",
     "werkzeug>=3.1.3",
 ]
