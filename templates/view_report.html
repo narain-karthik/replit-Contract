@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports - Contract DMS</title>
+    <title>Reports - GTN Engineering</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="header">
-        <h1>Contract Document Management System</h1>
+        <div class="header-left">
+            <img src="{{ url_for('static', filename='gtn_logo.png') }}" alt="GTN Logo" class="header-logo">
+            <div class="header-text">
+                <h1>GTN ENGINEERING INDIA LTD</h1>
+                <p>CONTRACT DOCUMENT MANAGEMENT SYSTEM</p>
+            </div>
+        </div>
         <div class="user-info">
             <span>Welcome, {{ session.user }}</span>
             <a href="{{ url_for('menu') }}" class="btn-back">Back to Menu</a>
@@ -17,7 +23,7 @@
     </div>
 
     <div class="container">
-        <h2>Reports</h2>
+        <h2 class="page-title">📊 Reports</h2>
 
         <form method="GET" class="filter-form">
             <div class="form-row">
@@ -39,10 +45,10 @@
                 </div>
             </div>
             <button type="submit" class="btn-primary">Apply Filters</button>
-            <a href="{{ url_for('view_report') }}" class="btn-outline">Clear</a>
+            <a href="{{ url_for('view_report') }}" class="btn-secondary">Clear</a>
         </form>
 
-        <h3>Documents</h3>
+        <h3 style="margin-top: 40px;">Documents</h3>
         <div class="table-container">
             <table>
                 <thead>
@@ -78,7 +84,7 @@
             </table>
         </div>
 
-        <h3>Uploads</h3>
+        <h3 style="margin-top: 40px;">Uploads</h3>
         <div class="table-container">
             <table>
                 <thead>
@@ -108,7 +114,7 @@
             </table>
         </div>
 
-        <h3>Downloads</h3>
+        <h3 style="margin-top: 40px;">Downloads</h3>
         <div class="table-container">
             <table>
                 <thead>

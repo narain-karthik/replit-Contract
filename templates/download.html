@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Document</title>
+    <title>Download Document - GTN Engineering</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="header">
-        <h1>Contract Document Management System</h1>
+        <div class="header-left">
+            <img src="{{ url_for('static', filename='gtn_logo.png') }}" alt="GTN Logo" class="header-logo">
+            <div class="header-text">
+                <h1>GTN ENGINEERING INDIA LTD</h1>
+                <p>CONTRACT DOCUMENT MANAGEMENT SYSTEM</p>
+            </div>
+        </div>
         <div class="user-info">
             <span>Welcome, {{ session.user }}</span>
             <a href="{{ url_for('menu') }}" class="btn-back">Back to Menu</a>
@@ -17,7 +23,7 @@
     </div>
 
     <div class="container">
-        <h2>Download Document</h2>
+        <h2 class="page-title">📥 Download Document</h2>
 
         <form method="POST" class="download-form">
             <div class="form-row">
@@ -43,7 +49,7 @@
         </form>
 
         {% if results %}
-        <h3>Search Results</h3>
+        <h3 style="margin-top: 40px;">Search Results</h3>
         <div class="table-container">
             <table>
                 <thead>

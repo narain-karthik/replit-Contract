@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Contract Document Management System</title>
+    <title>Login - GTN Engineering India Ltd</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="login-container">
         <div class="login-box">
-            <h1>Contract Document Management System</h1>
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='gtn_logo.png') }}" alt="GTN Engineering Logo">
+                <div class="company-name">GTN ENGINEERING INDIA LTD</div>
+                <div class="app-title">CONTRACT DOCUMENT MANAGEMENT SYSTEM</div>
+            </div>
+            
             <h2>Login</h2>
 
             {% if error %}
