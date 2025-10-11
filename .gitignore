@@ -59,9 +59,5 @@ Thumbs.db
 *.log
 /tmp/
 
-# Replit
-.replit
-.upm
+# Python virtual environment
 .pythonlibs
-pyproject.toml
-uv.lock
