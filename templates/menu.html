@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu - Contract DMS</title>
+    <title>Menu - Contract Document Management System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -17,23 +17,28 @@
 
     <div class="menu-container">
         <h2>Main Menu</h2>
+
         <div class="menu-grid">
             <a href="{{ url_for('upload') }}" class="menu-card">
                 <h3>Upload Page</h3>
                 <p>Upload new documents to the system</p>
             </a>
+
             <a href="{{ url_for('download') }}" class="menu-card">
                 <h3>Download Page</h3>
                 <p>Search and download documents</p>
             </a>
+
             <a href="{{ url_for('master_documents') }}" class="menu-card">
                 <h3>Master Data - Documents</h3>
                 <p>Manage document details</p>
             </a>
+
             <a href="{{ url_for('master_users') }}" class="menu-card">
                 <h3>Master Data - Users</h3>
                 <p>Manage user accounts</p>
             </a>
+
             <a href="{{ url_for('view_report') }}" class="menu-card">
                 <h3>View Report</h3>
                 <p>View document reports and tracking</p>

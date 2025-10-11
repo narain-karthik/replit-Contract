@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Master Data - Documents</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script defer src="{{ url_for('static', filename='app.js') }}"></script>
 </head>
 <body>
     <div class="header">
@@ -20,43 +19,19 @@
     <div class="container">
         <h2>Document Details - Master Data</h2>
 
-        <!-- Single add (works exactly as original) -->
-        <form method="POST" class="master-form" id="singleAddForm">
+        <form method="POST" class="master-form">
+            <!-- Shared fields for the whole set -->
             <div class="form-row">
-                <div class="form-group">
-                    <label for="quantity">Quantity</label>
-                    <input type="number" min="0" step="1" id="quantity" name="quantity" placeholder="e.g., 10">
-                </div>
-                <div class="form-group">
-                    <label for="material_number">Material Number</label>
-                    <input type="text" id="material_number" name="material_number" placeholder="e.g., MAT-001">
-                </div>
-                <div class="form-group">
-                    <label for="material_name">Material Name</label>
-                    <input type="text" id="material_name" name="material_name" placeholder="e.g., Steel Rod">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="vendor">Vendor</label>
-                    <input type="text" id="vendor" name="vendor" placeholder="e.g., ABC Suppliers">
-                </div>
                 <div class="form-group">
                     <label for="document_number">Document Number</label>
-                    <input type="text" id="document_number" name="document_number" placeholder="e.g., DOC-1001">
+                    <input type="text" id="document_number" name="document_number">
                 </div>
+
                 <div class="form-group">
                     <label for="revision_number">Revision Number</label>
-                    <input type="text" id="revision_number" name="revision_number" placeholder="e.g., R1">
+                    <input type="text" id="revision_number" name="revision_number">
                 </div>
-            </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="price">Price</label>
-                    <input type="number" min="0" step="0.01" id="price" name="price" placeholder="e.g., 99.99">
-                </div>
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select id="status" name="status">
@@ -66,82 +41,40 @@
                 </div>
             </div>
 
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button type="submit" class="btn-primary">Add Document</button>
-                <button type="button" class="btn-outline" id="toggleBulk">Switch to Bulk Add</button>
-            </div>
-        </form>
-
-        <!-- Bulk add UI (front-end only; posts multiple times to same endpoint) -->
-        <div id="bulkAddPanel" style="display:none; margin-top:18px;">
-            <div class="filter-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="shared_document_number">Document Number (shared)</label>
-                        <input type="text" id="shared_document_number" placeholder="e.g., DOC-1001">
-                    </div>
-                    <div class="form-group">
-                        <label for="shared_revision_number">Revision Number (shared)</label>
-                        <input type="text" id="shared_revision_number" placeholder="e.g., R1">
-                    </div>
-                    <div class="form-group">
-                        <label for="shared_status">Status (shared)</label>
-                        <select id="shared_status">
-                            <option value="ACTIVE">ACTIVE</option>
-                            <option value="INACTIVE">INACTIVE</option>
-                        </select>
-                    </div>
-                </div>
-                <p style="margin:6px 0 0 0; color:#555;">Click "Add Field" to add rows of Quantity, Material Number, Material Name, Vendor, and Price.</p>
-            </div>
+            <h3>Line Items</h3>
+            <p>Add rows of the following fields: Quantity, Material Number, Material Name, Vendor, Price.</p>
 
             <div id="lineItems" class="line-items">
                 <div class="line-row">
                     <div class="form-group">
                         <label>Quantity</label>
-                        <input type="number" name="quantity" min="0" step="1" placeholder="10">
+                        <input type="text" name="quantity[]">
                     </div>
                     <div class="form-group">
                         <label>Material Number</label>
-                        <input type="text" name="material_number" placeholder="MAT-001">
+                        <input type="text" name="material_number[]">
                     </div>
                     <div class="form-group">
                         <label>Material Name</label>
-                        <input type="text" name="material_name" placeholder="Steel Rod">
+                        <input type="text" name="material_name[]">
                     </div>
                     <div class="form-group">
                         <label>Vendor</label>
-                        <input type="text" name="vendor" placeholder="ABC Suppliers">
+                        <input type="text" name="vendor[]">
                     </div>
                     <div class="form-group">
                         <label>Price</label>
-                        <input type="number" name="price" min="0" step="0.01" placeholder="99.99">
+                        <input type="text" name="price[]">
                     </div>
-                    <div class="row-actions"></div>
                 </div>
             </div>
 
-            <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
-                <button type="button" class="btn-secondary" id="addFieldBtn">Add Field</button>
-                <button type="button" class="btn-primary" id="saveAllBtn">Save All</button>
-                <button type="button" class="btn-outline" id="toggleSingle">Back to Single Add</button>
-            </div>
-        </div>
+            <button type="button" id="addFieldBtn" class="btn-secondary" style="margin-top:10px;">Add Field</button>
 
-        <script>
-            const toggleBulk = document.getElementById('toggleBulk');
-            const toggleSingle = document.getElementById('toggleSingle');
-            const singleForm = document.getElementById('singleAddForm');
-            const bulkPanel = document.getElementById('bulkAddPanel');
-            if (toggleBulk) toggleBulk.addEventListener('click', () => {
-                singleForm.style.display = 'none';
-                bulkPanel.style.display = '';
-            });
-            if (toggleSingle) toggleSingle.addEventListener('click', () => {
-                bulkPanel.style.display = 'none';
-                singleForm.style.display = '';
-            });
-        </script>
+            <div style="margin-top:20px;">
+                <button type="submit" class="btn-primary">Add Document(s)</button>
+            </div>
+        </form>
 
         <h3>Existing Documents</h3>
         <div class="table-container">
@@ -177,12 +110,27 @@
                             <a href="{{ url_for('delete_document', doc_id=doc.id) }}" class="btn-delete" onclick="return confirm('Are you sure you want to delete this document?')">Delete</a>
                         </td>
                     </tr>
-                    {% else %}
-                    <tr><td colspan="10" style="text-align:center; color:#666;">No documents yet.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addBtn = document.getElementById('addFieldBtn');
+            const container = document.getElementById('lineItems');
+
+            addBtn.addEventListener('click', function () {
+                const firstRow = container.querySelector('.line-row');
+                if (!firstRow) return;
+
+                const clone = firstRow.cloneNode(true);
+                // Clear values in the cloned inputs
+                clone.querySelectorAll('input').forEach(inp => inp.value = '');
+                container.appendChild(clone);
+            });
+        });
+    </script>
 </body>
 </html>
