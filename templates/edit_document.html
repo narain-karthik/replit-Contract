@@ -53,26 +53,28 @@
                 <div class="line-row">
                     <div class="form-group">
                         <label>Quantity</label>
-                        <input type="text" name="quantity" value="{{ document.quantity }}">
+                        <input type="text" name="quantity[]" value="{{ document.quantity }}">
                     </div>
                     <div class="form-group">
                         <label>Material Number</label>
-                        <input type="text" name="material_number" value="{{ document.material_number }}">
+                        <input type="text" name="material_number[]" value="{{ document.material_number }}">
                     </div>
                     <div class="form-group">
                         <label>Material Name</label>
-                        <input type="text" name="material_name" value="{{ document.material_name }}">
+                        <input type="text" name="material_name[]" value="{{ document.material_name }}">
                     </div>
                     <div class="form-group">
                         <label>Vendor</label>
-                        <input type="text" name="vendor" value="{{ document.vendor }}">
+                        <input type="text" name="vendor[]" value="{{ document.vendor }}">
                     </div>
                     <div class="form-group">
                         <label>Price</label>
-                        <input type="text" name="price" value="{{ document.price }}">
+                        <input type="text" name="price[]" value="{{ document.price }}">
                     </div>
                 </div>
             </div>
+
+            <button type="button" id="addFieldBtn" class="btn-secondary" style="margin-top:10px;">Add Field</button>
 
             <div style="margin-top:20px;">
                 <button type="submit" class="btn-primary">Update Document</button>
@@ -80,5 +82,21 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addBtn = document.getElementById('addFieldBtn');
+            const container = document.getElementById('lineItems');
+
+            addBtn.addEventListener('click', function () {
+                const firstRow = container.querySelector('.line-row');
+                if (!firstRow) return;
+
+                const clone = firstRow.cloneNode(true);
+                clone.querySelectorAll('input').forEach(inp => inp.value = '');
+                container.appendChild(clone);
+            });
+        });
+    </script>
 </body>
 </html>

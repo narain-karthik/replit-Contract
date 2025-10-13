@@ -163,20 +163,29 @@ def edit_document(doc_id):
     db = get_db()
 
     if request.method == 'POST':
-        quantity = request.form.get('quantity', '')
-        material_number = request.form.get('material_number', '')
-        material_name = request.form.get('material_name', '')
-        vendor = request.form.get('vendor', '')
         document_number = request.form.get('document_number', '')
         revision_number = request.form.get('revision_number', '')
-        price = request.form.get('price', '')
         status = request.form.get('status', 'ACTIVE')
 
-        db.execute('''UPDATE documents SET quantity=?, material_number=?, material_name=?, 
-                      vendor=?, document_number=?, revision_number=?, price=?, status=? 
-                      WHERE id=?''',
-                   (quantity, material_number, material_name, vendor, document_number,
-                    revision_number, price, status, doc_id))
+        quantities = request.form.getlist('quantity[]')
+        material_numbers = request.form.getlist('material_number[]')
+        material_names = request.form.getlist('material_name[]')
+        vendors = request.form.getlist('vendor[]')
+        prices = request.form.getlist('price[]')
+
+        now = datetime.now().strftime('%Y-%m-%d')
+
+        db.execute('DELETE FROM documents WHERE id = ?', (doc_id,))
+
+        for q, mn, mname, v, p in zip(quantities, material_numbers, material_names, vendors, prices):
+            if any([q.strip(), mn.strip(), mname.strip(), v.strip(), p.strip()]):
+                db.execute('''INSERT INTO documents 
+                              (quantity, material_number, material_name, vendor, 
+                               document_number, revision_number, price, date, status) 
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                           (q.strip(), mn.strip(), mname.strip(), v.strip(),
+                            document_number.strip(), revision_number.strip(), p.strip(), now, status))
+
         db.commit()
         db.close()
 

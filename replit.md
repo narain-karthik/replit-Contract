@@ -200,6 +200,11 @@ None specified yet
     - Document Number, Revision Number, and Status fields at top
     - Line Items section with proper labeling
     - Consistent form layout across add and edit pages
+  - Added "Add Field" functionality to Edit Document page:
+    - Users can now add multiple line items when editing documents
+    - Added JavaScript to dynamically clone line item rows
+    - Updated backend to handle array of line items during edit
+    - Edit process now deletes old entry and creates new rows for each line item
 
 - October 11, 2025: UI/UX Redesign with GTN Engineering Branding
   - Implemented light sky blue color scheme (#87CEEB, #00BFFF, #E0F6FF) across all pages
