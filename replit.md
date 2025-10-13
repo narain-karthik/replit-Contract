@@ -205,6 +205,10 @@ None specified yet
     - Added JavaScript to dynamically clone line item rows
     - Updated backend to handle array of line items during edit
     - Edit process now deletes old entry and creates new rows for each line item
+  - Added "Document Name" column in Existing Documents table:
+    - Shows the uploaded file name associated with each document
+    - Uses LEFT JOIN to match document number and revision number with uploads
+    - Displays "-" when no file is uploaded for a document
 
 - October 11, 2025: UI/UX Redesign with GTN Engineering Branding
   - Implemented light sky blue color scheme (#87CEEB, #00BFFF, #E0F6FF) across all pages

@@ -149,7 +149,11 @@ def master_documents():
         return redirect(url_for('master_documents'))
 
     db = get_db()
-    documents = db.execute('SELECT * FROM documents ORDER BY id DESC').fetchall()
+    documents = db.execute('''SELECT d.*, u.filename 
+                              FROM documents d 
+                              LEFT JOIN uploads u ON d.document_number = u.document_number 
+                                  AND d.revision_number = u.revision_number 
+                              ORDER BY d.id DESC''').fetchall()
     db.close()
 
     return render_template('master_documents.html', documents=documents)
