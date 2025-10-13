@@ -192,6 +192,15 @@ The application is accessible through the Replit webview preview.
 None specified yet
 
 ## Recent Changes
+- October 13, 2025: Migration and UI Updates
+  - Successfully migrated project from Replit Agent to Replit environment
+  - Installed all required Python packages (gunicorn, flask, flask-sqlalchemy, psycopg2-binary, email-validator, werkzeug, flask-session)
+  - Configured Gunicorn workflow on port 5000 with auto-reload
+  - Updated edit document page layout to match add document style:
+    - Document Number, Revision Number, and Status fields at top
+    - Line Items section with proper labeling
+    - Consistent form layout across add and edit pages
+
 - October 11, 2025: UI/UX Redesign with GTN Engineering Branding
   - Implemented light sky blue color scheme (#87CEEB, #00BFFF, #E0F6FF) across all pages
   - Added GTN Engineering India Ltd logo to all pages
